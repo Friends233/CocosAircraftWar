@@ -20,7 +20,7 @@
         "__id__": 8
       },
       {
-        "__id__": 13
+        "__id__": 14
       }
     ],
     "_active": true,
@@ -304,7 +304,11 @@
       }
     ],
     "_active": true,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 13
+      }
+    ],
     "_prefab": null,
     "_opacity": 255,
     "_color": {
@@ -431,7 +435,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "0ca8f67a-04bc-4c7d-b52e-a8bb1377c9e2"
+      "__uuid__": "3d331b16-cd3f-4f6f-bce8-03ce596409ef"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -444,9 +448,7 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "9310d53b-40c7-479f-8b62-35063b094935"
-    },
+    "_atlas": null,
     "_id": "7bTJuRg25P4q5Ndfb0YKJ8"
   },
   {
@@ -527,7 +529,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "0ca8f67a-04bc-4c7d-b52e-a8bb1377c9e2"
+      "__uuid__": "3d331b16-cd3f-4f6f-bce8-03ce596409ef"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -540,10 +542,19 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "9310d53b-40c7-479f-8b62-35063b094935"
-    },
+    "_atlas": null,
     "_id": "511h+CTnxGFr2SNXWM5FbJ"
+  },
+  {
+    "__type__": "9a50cLFnVJC0KvNzsP8BzPs",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 8
+    },
+    "_enabled": true,
+    "speed": 133.4,
+    "_id": "fb/JWAwyBCka7iPEFFct4P"
   },
   {
     "__type__": "cc.Node",
@@ -556,13 +567,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 14
-      },
-      {
         "__id__": 15
       },
       {
         "__id__": 16
+      },
+      {
+        "__id__": 17
       }
     ],
     "_prefab": null,
@@ -618,7 +629,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 13
+      "__id__": 14
     },
     "_enabled": true,
     "_materials": [
@@ -652,7 +663,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 13
+      "__id__": 14
     },
     "_enabled": true,
     "_defaultClip": {
@@ -671,7 +682,7 @@
     "_name": "player",
     "_objFlags": 0,
     "node": {
-      "__id__": 13
+      "__id__": 14
     },
     "_enabled": true,
     "_id": "61yx3TU+xHToVXrd4lJ//f"

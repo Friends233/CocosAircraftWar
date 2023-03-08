@@ -16,6 +16,7 @@ export default class Player extends cc.Component {
 
   /** 是否选中玩家 */
   selected: boolean = false
+  
   onLoad() {
     this.viewWidth = cc.view.getCanvasSize().width
     this.viewHeight = cc.view.getCanvasSize().height
@@ -39,8 +40,7 @@ export default class Player extends cc.Component {
         const pos: cc.Vec2 = e.getPreviousLocation()
         const posX = Math.min(Math.max(pos.x, player.width / 2), this.viewWidth - player.width / 2)
         const posY = Math.min(Math.max(pos.y, player.height / 2), this.viewHeight - player.height / 2)
-        player.setPosition(posX,posY)
-
+        player.setPosition(posX, posY)
       }
     }, true)
   }
