@@ -23,9 +23,9 @@ export default class Player extends cc.Component {
 
 
   /** 子弹发射间隔 */
-  @property
-  bulletCd:number = 1.5
-  
+
+  bulletCd: number = 0.5
+
   onLoad() {
     this.viewWidth = cc.view.getCanvasSize().width
     this.viewHeight = cc.view.getCanvasSize().height
@@ -35,7 +35,7 @@ export default class Player extends cc.Component {
     this.addNodeListener()
     this.schedule(() => {
       this.shoot()
-    },this.bulletCd)
+    }, this.bulletCd)
   }
 
   /** 添加节点的监听事件 */
@@ -57,15 +57,30 @@ export default class Player extends cc.Component {
     }, true)
   }
 
-  update (dt) {
-    
+  update(dt) {
+
   }
 
   /** 发射子弹 */
-  shoot(){
+  shoot() {
     const bullet = cc.instantiate(this.bullet)
     bullet.y = this.node.y
     bullet.x = this.node.x
     bullet.setParent(cc.director.getScene())
+  }
+
+  onCollisionEnter(other:cc.Collider,self:cc.Collider) {
+    /** 与敌机碰撞 */
+    if(other.tag == 2){
+      console.log('game over')
+      cc.game.pause()
+    }
+  }
+
+  onCollisionStay(other:cc.Collider,self:cc.Collider) {
+  }
+
+  onCollisionExit(other:cc.Collider,self:cc.Collider) {
+    // cc.log("|on collision Exit");
   }
 }

@@ -8,18 +8,25 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class Bullet extends cc.Component {
+export default class Enemy extends cc.Component {
   /** 屏幕宽度 */
   viewWidth: number = 375
   /** 屏幕高度 */
   viewHeight: number = 667
+  /** 敌机移动速度 */
+  moveSpeed: number = 50
+  /** 血量 */
+  blood: number = 3
 
-  /** 子弹速度 */
-  bulletSpeed: number = 200
+  addScore: cc.Event.EventCustom = null
 
   onLoad() {
     this.viewWidth = cc.view.getCanvasSize().width
     this.viewHeight = cc.view.getCanvasSize().height
+    this.addScore = new cc.Event.EventCustom('addScore', true)
+    this.addScore.detail = {
+      score: 1
+    }
   }
 
   start() {
@@ -27,28 +34,26 @@ export default class Bullet extends cc.Component {
   }
 
   update(dt) {
-    this.node.y += this.bulletSpeed * dt
-    if (this.node.y >= this.viewHeight) {
+    this.node.y -= this.moveSpeed * dt
+    if (this.node.y <= -this.viewHeight - this.node.height) {
       this.node.destroy()
     }
   }
 
   onCollisionEnter(other: cc.Collider, self: cc.Collider) {
-    /** 与敌机碰撞 */
-    if (other.tag == 2) {
-      this.die()
+    /** 与子弹碰撞 */
+    if (other.tag == 1) {
+      this.blood--
+      if (this.blood <= 0) {
+        this.die()
+      }
     }
   }
 
-  onCollisionStay(other: cc.Collider, self: cc.Collider) {
-
-  }
-
-  onCollisionExit(other: cc.Collider, self: cc.Collider) {
-    // cc.log("|on collision Exit");
-  }
-
+  /** 去世 */
   die() {
+    console.log('111')
     this.node.destroy()
+    cc.find('Background').dispatchEvent(this.addScore)
   }
 }
