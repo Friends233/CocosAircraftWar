@@ -121,6 +121,9 @@
       "__id__": 1
     },
     "_enabled": true,
+    "bloodStatic": {
+      "__uuid__": "1ee1714b-fc9c-49a6-ad5a-a817a42ffad7"
+    },
     "_id": ""
   },
   {

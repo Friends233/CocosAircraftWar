@@ -1,15 +1,6 @@
-const { ccclass, property } = cc._decorator;
+import { CUSTOM_EVENT, randomNum } from "./comm";
 
-/**
- *  获取区间随机数 [min,max)
- * @export
- * @param {*} min
- * @param {*} max
- * @return {*} 
- */
-function randomNum(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min
-}
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Bg extends cc.Component {
@@ -56,7 +47,7 @@ export default class Bg extends cc.Component {
     this.schedule(() => {
       this.addEnemy()
     }, this.addEnemySpeed)
-    this.node.on('addScore',({detail}) => {
+    this.node.on(CUSTOM_EVENT.ADD_SCORE,({detail}) => {
       this.scoreNum += detail.score
       this.scoreLable.string = "得分："+ this.scoreNum 
     })
