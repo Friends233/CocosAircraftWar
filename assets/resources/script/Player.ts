@@ -16,6 +16,15 @@ export default class Player extends cc.Component {
 
   /** 是否选中玩家 */
   selected: boolean = false
+
+  /** 玩家子弹 */
+  @property(cc.Prefab)
+  bullet:cc.Prefab = null
+
+
+  /** 子弹发射间隔 */
+  @property
+  bulletCd:number = 1.5
   
   onLoad() {
     this.viewWidth = cc.view.getCanvasSize().width
@@ -24,6 +33,9 @@ export default class Player extends cc.Component {
 
   start() {
     this.addNodeListener()
+    this.schedule(() => {
+      this.shoot()
+    },this.bulletCd)
   }
 
   /** 添加节点的监听事件 */
@@ -45,5 +57,15 @@ export default class Player extends cc.Component {
     }, true)
   }
 
-  // update (dt) {}
+  update (dt) {
+    
+  }
+
+  /** 发射子弹 */
+  shoot(){
+    const bullet = cc.instantiate(this.bullet)
+    bullet.y = this.node.y
+    bullet.x = this.node.x
+    bullet.setParent(cc.director.getScene())
+  }
 }

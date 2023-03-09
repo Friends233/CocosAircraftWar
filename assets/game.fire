@@ -782,6 +782,10 @@
       "__id__": 16
     },
     "_enabled": true,
+    "bullet": {
+      "__uuid__": "9c2dd4fd-16f1-484f-9b3d-740fa001fbfb"
+    },
+    "bulletCd": 0.1,
     "_id": "61yx3TU+xHToVXrd4lJ//f"
   }
 ]
