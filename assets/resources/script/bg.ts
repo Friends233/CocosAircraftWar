@@ -9,6 +9,9 @@ export default class Bg extends cc.Component {
 
   bgs: cc.Node[] = []
 
+  /** 顶部背景 */
+  topBg:cc.Node = null
+
   /** 速度 */
   @property
   speed: number = 133.4
@@ -17,7 +20,7 @@ export default class Bg extends cc.Component {
     this.viewWidth = cc.view.getCanvasSize().width
     this.viewHeight = cc.view.getCanvasSize().height
     this.bgs = this.node.children
-    console.log(this.bgs[0].y,this.bgs[1].y)
+    this.topBg = this.bgs[this.bgs.length-1]
   }
 
   start() {
@@ -25,14 +28,11 @@ export default class Bg extends cc.Component {
   }
 
   update(dt) {
-    const bg1 = this.bgs[0]
-    const bg2 = this.bgs[1]
-    const ary = [bg2,bg1]
-    ary.forEach((bg, i) => {
-    
+    this.bgs.forEach((bg) => {
       bg.y -= this.speed * dt
-      if(bg.y <= -this.viewHeight){
-        bg.y += this.viewHeight * 2
+      if(bg.y <= -bg.height){
+        bg.y = this.topBg.y + bg.height - this.speed*dt
+        this.topBg = bg
       }
     })
   }
