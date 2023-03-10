@@ -17,6 +17,8 @@ export default class Bullet extends cc.Component {
   /** 子弹速度 */
   bulletSpeed: number = 200
 
+  isDie:boolean = false
+
   onLoad() {
     this.viewWidth = cc.view.getCanvasSize().width
     this.viewHeight = cc.view.getCanvasSize().height
@@ -27,6 +29,7 @@ export default class Bullet extends cc.Component {
   }
 
   update(dt) {
+    if(this.isDie) return
     this.node.y += this.bulletSpeed * dt
     if (this.node.y >= this.viewHeight) {
       this.node.destroy()
@@ -36,7 +39,15 @@ export default class Bullet extends cc.Component {
   onCollisionEnter(other: cc.Collider, self: cc.Collider) {
     /** 与敌机碰撞 */
     if (other.tag == 2) {
-      this.die()
+      const aui = this.node.getComponent(cc.AudioSource)
+      aui.play()
+      this.isDie = true
+      this.node.opacity = 0
+      
+      this.schedule(() => {
+        this.die()
+      }, aui.getDuration(), 1)
+      // this.die()
     }
   }
 

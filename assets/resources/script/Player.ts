@@ -67,6 +67,7 @@ export default class Player extends cc.Component {
     bullet.y = this.node.y
     bullet.x = this.node.x
     bullet.setParent(cc.director.getScene())
+    this.node.getComponent(cc.AudioSource).play()
   }
 
   onCollisionEnter(other:cc.Collider,self:cc.Collider) {

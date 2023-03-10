@@ -89,8 +89,11 @@ export default class Enemy extends cc.Component {
     this.schedule(() => {
       this.node.destroy()
     },ani.duration,1)
+    
     this.bloodIns.opacity = 0
     // this.node.destroy()
     cc.find('Background').dispatchEvent(this.addScore)
+    this.node.getComponent(cc.AudioSource).play()
+
   }
 }
