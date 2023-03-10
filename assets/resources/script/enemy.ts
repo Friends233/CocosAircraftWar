@@ -18,7 +18,7 @@ export default class Enemy extends cc.Component {
   /** 敌机移动速度 */
   moveSpeed: number = 50
   /** 最大血量 */
-  maxBlood:number = 3
+  maxBlood: number = 3
   /** 血量 */
   blood: number = this.maxBlood
 
@@ -50,7 +50,7 @@ export default class Enemy extends cc.Component {
   }
 
   /** 添加血条 */
-  addBlood(){
+  addBlood() {
     this.bloodIns = cc.instantiate(this.bloodStatic)
     this.bloodIns.y = this.node.height + 5
     this.bloodIns.x = this.node.width / 2
@@ -58,7 +58,12 @@ export default class Enemy extends cc.Component {
   }
 
   /** 扣血 */
-  buckleBlood(damage=1) {
+  buckleBlood(damage = 1) {
+    this.node.color = new cc.color(161, 161, 161, 255)
+    this.schedule(() => {
+      console.log('修改')
+      this.node.color = new cc.color(255, 255, 255, 255)
+    }, 0.1, 1)
     this.blood -= damage
     const range = (this.blood / this.maxBlood).toFixed(3)
     const bloodScript = this.bloodIns.getComponent('blood')
