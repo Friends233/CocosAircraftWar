@@ -33,8 +33,8 @@ export default class Bg extends cc.Component {
 
 
   onLoad() {
-    this.viewWidth = cc.view.getCanvasSize().width
-    this.viewHeight = cc.view.getCanvasSize().height
+    this.viewWidth = cc.view.getFrameSize().width
+    this.viewHeight = cc.view.getFrameSize().height
     this.bgs = this.node.children
     this.topBg = this.bgs[this.bgs.length - 1]
 

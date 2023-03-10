@@ -20,8 +20,8 @@ export default class Bullet extends cc.Component {
   isDie:boolean = false
 
   onLoad() {
-    this.viewWidth = cc.view.getCanvasSize().width
-    this.viewHeight = cc.view.getCanvasSize().height
+    this.viewWidth = cc.view.getFrameSize().width
+    this.viewHeight = cc.view.getFrameSize().height
   }
 
   start() {

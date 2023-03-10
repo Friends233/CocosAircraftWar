@@ -27,8 +27,8 @@ export default class Player extends cc.Component {
   bulletCd: number = 0.5
 
   onLoad() {
-    this.viewWidth = cc.view.getCanvasSize().width
-    this.viewHeight = cc.view.getCanvasSize().height
+    this.viewWidth = cc.view.getFrameSize().width
+    this.viewHeight = cc.view.getFrameSize().height
   }
 
   start() {
