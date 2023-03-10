@@ -71,7 +71,7 @@ export default class Player extends cc.Component {
 
   onCollisionEnter(other:cc.Collider,self:cc.Collider) {
     /** 与敌机碰撞 */
-    if(other.tag == 2){
+    if(other.tag == 2 && other.node.getComponent('enemy').blood>0){
       console.log('game over')
       cc.game.pause()
     }

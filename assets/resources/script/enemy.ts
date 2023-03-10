@@ -61,7 +61,6 @@ export default class Enemy extends cc.Component {
   buckleBlood(damage = 1) {
     this.node.color = new cc.color(161, 161, 161, 255)
     this.schedule(() => {
-      console.log('修改')
       this.node.color = new cc.color(255, 255, 255, 255)
     }, 0.1, 1)
     this.blood -= damage
@@ -73,6 +72,10 @@ export default class Enemy extends cc.Component {
   onCollisionEnter(other: cc.Collider, self: cc.Collider) {
     /** 与子弹碰撞 */
     if (other.tag == 1) {
+      /** 已经去世了 */
+      if(this.blood<=0){
+        return
+      }
       this.buckleBlood()
       if (this.blood <= 0) {
         this.die()
@@ -82,7 +85,12 @@ export default class Enemy extends cc.Component {
 
   /** 去世 */
   die() {
-    this.node.destroy()
+    const ani:cc.AnimationState = this.node.getComponent(cc.Animation).play('enemyDie')
+    this.schedule(() => {
+      this.node.destroy()
+    },ani.duration,1)
+    this.bloodIns.opacity = 0
+    // this.node.destroy()
     cc.find('Background').dispatchEvent(this.addScore)
   }
 }
