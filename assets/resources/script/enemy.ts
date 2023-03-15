@@ -30,8 +30,8 @@ export default class Enemy extends cc.Component {
   addScore: cc.Event.EventCustom = null
 
   onLoad() {
-    this.viewWidth = cc.view.getFrameSize().width
-    this.viewHeight = cc.view.getFrameSize().height
+    this.viewWidth = cc.view.getVisibleSize().width
+    this.viewHeight = cc.view.getVisibleSize().height
   }
 
   start() {
