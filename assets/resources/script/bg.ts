@@ -1,4 +1,4 @@
-import { CUSTOM_EVENT, randomNum } from "./comm";
+import { CUSTOM_EVENT, getProbability, randomNum } from "./comm";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,10 +22,14 @@ export default class Bg extends cc.Component {
   enemy: cc.Prefab = null
 
   @property(cc.Label)
-  scoreLable:cc.Label = null
+  scoreLable: cc.Label = null
+
+  /** buff模板 */
+  @property(cc.Prefab)
+  buff: cc.Prefab = null
 
   /** 得分 */
-  scoreNum:number = 0
+  scoreNum: number = 0
 
   /** 出现敌人的间隔 */
   addEnemySpeed: number = 1.5
@@ -46,10 +50,22 @@ export default class Bg extends cc.Component {
     this.schedule(() => {
       this.addEnemy()
     }, this.addEnemySpeed)
-    this.node.on(CUSTOM_EVENT.ADD_SCORE,({detail}) => {
+    this.node.on(CUSTOM_EVENT.ADD_SCORE, ({ detail }) => {
       this.scoreNum += detail.score
-      this.scoreLable.string = "得分："+ this.scoreNum 
+      this.scoreLable.string = "得分：" + this.scoreNum
     })
+    this.node.on(CUSTOM_EVENT.GET_BUFF,, ({ detail }) => {
+      this.addBuff(detail)
+    })
+  }
+
+  /** 添加buff */
+  addBuff({ x, y }) {
+    if (!getProbability(20)) return
+    const buff = cc.instantiate(this.buff)
+    buff.y = y + buff.height / 2
+    buff.x = x + buff.width / 2
+    buff.setParent(cc.director.getScene())
   }
 
   update(dt) {

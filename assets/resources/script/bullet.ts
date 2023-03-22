@@ -19,6 +19,9 @@ export default class Bullet extends cc.Component {
 
   isDie: boolean = false
 
+  /** 穿透弹 */
+  isSuper:boolean = false
+
   onLoad() {
     this.viewWidth = cc.view.getVisibleSize().width
     this.viewHeight = cc.view.getVisibleSize().height
@@ -46,7 +49,7 @@ export default class Bullet extends cc.Component {
     /** 与敌机碰撞 */
     if (other.tag == 2) {
       const ani: cc.AnimationState = other.node.getComponent(cc.Animation).getAnimationState('enemyDie')
-      if (ani.isPlaying) return
+      if (ani.isPlaying || this.isSuper) return
 
       const aui = this.node.getComponent(cc.AudioSource)
       aui.play()

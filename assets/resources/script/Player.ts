@@ -65,14 +65,14 @@ export default class Player extends cc.Component {
 
   /** 发射子弹计时器 */
   shootSchedule() {
-    console.log('发射', this.bulletCd, this.bulletType)
+    // console.log('发射', this.bulletCd, this.bulletType)
     this.shoot()
   }
 
   /** 刷新子弹发射计时器 */
   refreshShootSchedule() {
     this.unschedule(this.shootSchedule)
-    console.log('刷新', this.bulletCd)
+    // console.log('刷新', this.bulletCd)
     this.schedule(this.shootSchedule, this.bulletCd)
   }
 
@@ -84,6 +84,18 @@ export default class Player extends cc.Component {
         const bullet = cc.instantiate(this.bullet)
         bullet.y = this.node.y
         bullet.x = this.node.x
+        bullet.setParent(cc.director.getScene())
+        this.node.getComponent(cc.AudioSource).play()
+        this.bulletCd = 0.3
+        break;
+      /** 放大+穿透弹 */
+      case BUFF_MAP.K:
+        const bullet: cc.Node = cc.instantiate(this.bullet)
+        const big = 3
+        bullet.scale = big
+        bullet.getComponent('bullet').isSuper = true
+        bullet.y = this.node.y
+        bullet.x = this.node.x - (big * bullet.width / 2 - 3)
         bullet.setParent(cc.director.getScene())
         this.node.getComponent(cc.AudioSource).play()
         this.bulletCd = 0.3
@@ -105,13 +117,8 @@ export default class Player extends cc.Component {
         break;
       /** 散弹 TODO 待实现 */
       case BUFF_MAP.S:
-        const bullet:cc.Node = cc.instantiate(this.bullet)
-        bullet.y = this.node.y
-        bullet.x = this.node.x
-        bullet.setParent(cc.director.getScene())
-        this.node.getComponent(cc.AudioSource).play()
-        this.bulletCd = 0.3
-        break;
+
+        // break;
       /** 激光（假的，快速子弹） */
       case BUFF_MAP.L:
         const bullet = cc.instantiate(this.bullet)
