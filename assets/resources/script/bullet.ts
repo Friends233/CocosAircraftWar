@@ -17,11 +17,12 @@ export default class Bullet extends cc.Component {
   /** 子弹速度 */
   bulletSpeed: number = 200
 
-  isDie:boolean = false
+  isDie: boolean = false
 
   onLoad() {
     this.viewWidth = cc.view.getVisibleSize().width
     this.viewHeight = cc.view.getVisibleSize().height
+    // this.node.angle = 30
   }
 
   start() {
@@ -29,9 +30,14 @@ export default class Bullet extends cc.Component {
   }
 
   update(dt) {
-    if(this.isDie) return
+    if (this.isDie) return
+    let rad = this.node.angle * Math.PI / 180
+    // this.node.x += this.bulletSpeed * dt * Math.cos(rad)
+    // this.node.y += this.bulletSpeed * dt * Math.sin(rad)
     this.node.y += this.bulletSpeed * dt
-    if (this.node.y >= this.viewHeight) {
+    if (this.node.y >= this.viewHeight
+      || this.node.x <= -this.node.width
+      || this.node.x >= this.viewWidth + this.node.width) {
       this.node.destroy()
     }
   }
@@ -39,11 +45,14 @@ export default class Bullet extends cc.Component {
   onCollisionEnter(other: cc.Collider, self: cc.Collider) {
     /** 与敌机碰撞 */
     if (other.tag == 2) {
+      const ani: cc.AnimationState = other.node.getComponent(cc.Animation).getAnimationState('enemyDie')
+      if (ani.isPlaying) return
+
       const aui = this.node.getComponent(cc.AudioSource)
       aui.play()
       this.isDie = true
       this.node.opacity = 0
-      
+
       this.schedule(() => {
         this.die()
       }, aui.getDuration(), 1)

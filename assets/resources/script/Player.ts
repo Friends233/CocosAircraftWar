@@ -5,6 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
+import { buffTyps, BUFF_MAP } from "./comm";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -19,12 +21,14 @@ export default class Player extends cc.Component {
 
   /** 玩家子弹 */
   @property(cc.Prefab)
-  bullet:cc.Prefab = null
+  bullet: cc.Prefab = null
 
 
   /** 子弹发射间隔 */
+  bulletCd: number = 0.3
 
-  bulletCd: number = 0.5
+  /** 子弹类型 */
+  bulletType: buffTyps = 'A'
 
   onLoad() {
     this.viewWidth = cc.view.getVisibleSize().width
@@ -33,9 +37,7 @@ export default class Player extends cc.Component {
 
   start() {
     this.addNodeListener()
-    this.schedule(() => {
-      this.shoot()
-    }, this.bulletCd)
+    this.refreshShootSchedule()
   }
 
   /** 添加节点的监听事件 */
@@ -61,27 +63,99 @@ export default class Player extends cc.Component {
 
   }
 
-  /** 发射子弹 */
-  shoot() {
-    const bullet = cc.instantiate(this.bullet)
-    bullet.y = this.node.y
-    bullet.x = this.node.x
-    bullet.setParent(cc.director.getScene())
-    this.node.getComponent(cc.AudioSource).play()
+  /** 发射子弹计时器 */
+  shootSchedule() {
+    console.log('发射', this.bulletCd, this.bulletType)
+    this.shoot()
   }
 
-  onCollisionEnter(other:cc.Collider,self:cc.Collider) {
+  /** 刷新子弹发射计时器 */
+  refreshShootSchedule() {
+    this.unschedule(this.shootSchedule)
+    console.log('刷新', this.bulletCd)
+    this.schedule(this.shootSchedule, this.bulletCd)
+  }
+
+  /** 发射子弹 */
+  shoot() {
+    switch (this.bulletType) {
+      /** 普通子弹 */
+      case BUFF_MAP.A:
+        const bullet = cc.instantiate(this.bullet)
+        bullet.y = this.node.y
+        bullet.x = this.node.x
+        bullet.setParent(cc.director.getScene())
+        this.node.getComponent(cc.AudioSource).play()
+        this.bulletCd = 0.3
+        break;
+      /** 齐射弹 */
+      case BUFF_MAP.B:
+        const maxnum = 5
+        const offsetX = 10
+        const copy = cc.instantiate(this.bullet)
+        let posx = Math.floor((copy.width + offsetX) * maxnum / 2) + offsetX - 2
+        for (let i = 1; i <= maxnum; i++) {
+          const bullet = cc.instantiate(this.bullet)
+          bullet.y = this.node.y
+          bullet.x = this.node.x + (i * (bullet.width + offsetX)) - posx
+          bullet.setParent(cc.director.getScene())
+          this.node.getComponent(cc.AudioSource).play()
+        }
+        this.bulletCd = 0.3
+        break;
+      /** 散弹 TODO 待实现 */
+      case BUFF_MAP.S:
+        const bullet:cc.Node = cc.instantiate(this.bullet)
+        bullet.y = this.node.y
+        bullet.x = this.node.x
+        bullet.setParent(cc.director.getScene())
+        this.node.getComponent(cc.AudioSource).play()
+        this.bulletCd = 0.3
+        break;
+      /** 激光（假的，快速子弹） */
+      case BUFF_MAP.L:
+        const bullet = cc.instantiate(this.bullet)
+        bullet.y = this.node.y
+        bullet.x = this.node.x
+        bullet.setParent(cc.director.getScene())
+        this.node.getComponent(cc.AudioSource).play()
+        this.bulletCd = 0.1
+        break;
+    }
+
+  }
+
+  /**
+   * 设置buff
+   * @param buff 
+   */
+  setBuff(buff: buffTyps) {
+    this.bulletType = buff
+    this.scheduleOnce(() => {
+      this.refreshShootSchedule()
+    }, 0.3)
+
+  }
+
+  onCollisionEnter(other: cc.Collider, self: cc.Collider) {
     /** 与敌机碰撞 */
-    if(other.tag == 2 && other.node.getComponent('enemy').blood>0){
+    if (other.tag == 2 && other.node.getComponent('enemy').blood > 0) {
       console.log('game over')
       cc.game.pause()
     }
+
+    /** 与buff碰撞 */
+    if (other.tag == 99) {
+      const buff = other.node.getComponent(cc.Label).string
+      other.node.destroy()
+      this.setBuff(buff)
+    }
   }
 
-  onCollisionStay(other:cc.Collider,self:cc.Collider) {
+  onCollisionStay(other: cc.Collider, self: cc.Collider) {
   }
 
-  onCollisionExit(other:cc.Collider,self:cc.Collider) {
+  onCollisionExit(other: cc.Collider, self: cc.Collider) {
     // cc.log("|on collision Exit");
   }
 }

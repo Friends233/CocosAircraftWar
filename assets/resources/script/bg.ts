@@ -15,8 +15,7 @@ export default class Bg extends cc.Component {
   topBg: cc.Node = null
 
   /** 速度 */
-  @property
-  speed: number = 133.4
+  speed: number = 303.4
 
   /** 敌机模板 */
   @property(cc.Prefab)
@@ -29,7 +28,7 @@ export default class Bg extends cc.Component {
   scoreNum:number = 0
 
   /** 出现敌人的间隔 */
-  addEnemySpeed: number = 2
+  addEnemySpeed: number = 1.5
 
 
   onLoad() {

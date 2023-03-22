@@ -18,7 +18,7 @@ export default class Enemy extends cc.Component {
   /** 敌机移动速度 */
   moveSpeed: number = 50
   /** 最大血量 */
-  maxBlood: number = 3
+  maxBlood: number = 5
   /** 血量 */
   blood: number = this.maxBlood
 
